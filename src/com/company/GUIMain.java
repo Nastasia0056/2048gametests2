@@ -12,6 +12,7 @@ public class GUIMain extends JFrame {
 
     private GUIMain(){
         game = new Game();
+        game.newGame();
         initPanel();
         initFrame();
         createButtons();
@@ -41,13 +42,10 @@ public class GUIMain extends JFrame {
         button.setFocusable(false);
         panel.add(button);
 
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                game.newGame();
-                panel.validate();
-                panel.repaint();
-            }
+        button.addActionListener(e -> {
+            game.newGame();
+            panel.validate();
+            panel.repaint();
         });
     }
 
@@ -108,18 +106,25 @@ public class GUIMain extends JFrame {
             int code = e.getKeyCode();
             String keyText = KeyEvent.getKeyText(code);
             DirectionType direction = DirectionType.None;
-            if (keyText.equals("Up"))
-                direction = DirectionType.Up;
-            else if (keyText.equals("Down"))
-                direction = DirectionType.Down;
-            else if (keyText.equals("Left") )
-                direction = DirectionType.Left;
-            else if (keyText.equals("Right"))
-                direction = DirectionType.Right;
+            switch (keyText) {
+                case "Up":
+                    direction = DirectionType.Up;
+                    break;
+                case "Down":
+                    direction = DirectionType.Down;
+                    break;
+                case "Left":
+                    direction = DirectionType.Left;
+                    break;
+                case "Right":
+                    direction = DirectionType.Right;
+                    break;
+            }
 
             if (direction != DirectionType.None)
             {
                 game.move(direction);
+                game.createNumber();
                 panel.validate();
                 panel.repaint();
 

@@ -11,11 +11,16 @@ public class Game {
     private StatusType status;
 
     public Game(){
-        newGame();
+        status = StatusType.Play;
     }
 
     public int get(int i, int j){
         return matrix[i][j];
+    }
+
+    //для тестов
+    public void set(int i, int j, int data){
+        matrix[i][j] = data;
     }
 
     public int getScore() {
@@ -35,7 +40,10 @@ public class Game {
         createNumber();
     }
 
-    private void createNumber(){
+    public void createNumber(){
+        if(checkFull())
+            return;
+
         int ver = random.nextInt(11);
         int data;
         if(ver == 10)
@@ -192,9 +200,7 @@ public class Game {
     }
 
     private boolean checkMove(){
-        if (checkMoveDown() || checkMoveLeft() || checkMoveRight() || checkMoveUp())
-            return true;
-        return false;
+        return checkMoveDown() || checkMoveLeft() || checkMoveRight() || checkMoveUp();
     }
 
     public void move(DirectionType directionType){
@@ -241,9 +247,6 @@ public class Game {
                 }
             }
         }
-
-        if(!checkFull())
-            createNumber();
     }
 
 //    public void print(){
